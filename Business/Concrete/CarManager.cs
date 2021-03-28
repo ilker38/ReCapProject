@@ -20,5 +20,37 @@ namespace Business.Concrete
         {
             return _carDal.GetAll();
         }
+
+        public List<Car> GettAllByColorId(int id)
+        {
+            return _carDal.GetAll(c => c.ColorId == id);
+        }
+
+        public List<Car> GettAllByBrandId(int id)
+        {
+            return _carDal.GetAll(c => c.BrandId == id);
+        }
+
+        public void Add(Car car)
+        {
+            if (car.CarName.Length>2 && car.DailyPrice>0)
+            {
+                _carDal.Add(car);
+            }else
+            {
+                throw new Exception("Araç Adı minimum 2 Karakter olmalıdır ve Araç Günlük Kiralama Tutarı 0 TL'den yüksek olmalıdır");
+            }
+
+        }
+        
+        public void Update(Car car)
+        {
+            
+        }
+
+        public void Delete(Car car)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
