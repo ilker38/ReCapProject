@@ -4,6 +4,7 @@ using System.Text;
 using Business.Abstract;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 
 namespace Business.Concrete
 {
@@ -45,12 +46,18 @@ namespace Business.Concrete
         
         public void Update(Car car)
         {
-            
+            _carDal.Update(car);
         }
 
         public void Delete(Car car)
         {
-            throw new NotImplementedException();
+            _carDal.GetAll(c => c.BrandId == car.BrandId);
+            _carDal.Delete(car);
+        }
+
+        public List<CarDetailDto> getCarDetails()
+        {
+            return _carDal.GetCarDetails();
         }
     }
 }
