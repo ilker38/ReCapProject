@@ -27,7 +27,7 @@ namespace Business.Concrete
         public IResult Add(Rental rental)
         {
             _rentalDal.Add(rental);
-            return new SuccessResult(Messages.BrandUpdated);
+            return new SuccessResult(Messages.RentalAdded);
          /*   if (rental.ReturnDate==null)
             { return new ErrorResult(Messages.CarNotReturned);}
             else { return new SuccessResult(Messages.RentalAdded);}*/
