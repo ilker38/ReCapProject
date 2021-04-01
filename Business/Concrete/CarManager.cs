@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -15,10 +17,14 @@ namespace Business.Concrete
     public class CarManager:ICarService
     {
         ICarDal _carDal;
+        IColorService _colorService;
+        IBrandService _brandService;
 
-        public CarManager(ICarDal carDal)
+        public CarManager(ICarDal carDal,IBrandService brandService,IColorService colorService)
         {
             _carDal = carDal;
+            _colorService=colorService;
+            _brandService=brandService;
         }
 
         public IDataResult<List<Car>> GetAll()
@@ -38,10 +44,11 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
+            IResult result = BusinessRules.Run(CheckIfColorCountOfCategoryCorrect(car.ColorId), CheckIfCarNameExists(car.CarName), CheckIfBrandCategoryLimitExceded());
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
         }
-        
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
         {
             _carDal.Update(car);
@@ -59,5 +66,42 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
         }
+
+
+
+        private IResult CheckIfColorCountOfCategoryCorrect(int colorId)
+        {
+            var result = _carDal.GetAll(c => c.ColorId == colorId).Count;
+            if (result >= 15)
+            {
+                return new ErrorResult(Messages.CarColorCountOfCategoryError);
+            }
+
+            return new SuccessResult();
+        }
+        private IResult CheckIfCarNameExists(string carName)
+        {
+            var result = _carDal.GetAll(c => c.CarName == carName).Any();
+            if (result)
+            {
+                return new ErrorResult(Messages.CarNameAlreadyExists);
+            }
+
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfBrandCategoryLimitExceded()
+        {
+            var result = _brandService.GetAll();
+            if (result.Data.Count > 15)
+            {
+                return new ErrorResult(Messages.CarBrandLimitExceded);
+            }
+
+            return new SuccessResult();
+        }
+
+
+
     }
 }

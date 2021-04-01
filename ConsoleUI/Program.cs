@@ -10,23 +10,23 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarManager carManager = new CarManager(new EfCarDal());
-            BrandManager brandManager = new BrandManager(new EfBrandDal());
-            ColorManager colorManager = new ColorManager(new EfColorDal());
-            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
-            RentalManager rentalManager = new RentalManager(new EfRentalDal());
-            UserManager userManager = new UserManager(new EfUserDal());
+            //CarManager carManager = new CarManager(new EfCarDal());
+            //BrandManager brandManager = new BrandManager(new EfBrandDal());
+            //ColorManager colorManager = new ColorManager(new EfColorDal());
+            //CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            //RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            //UserManager userManager = new UserManager(new EfUserDal());
             
-            AddMethod(rentalManager, carManager, colorManager, brandManager);
+            //AddMethod(rentalManager, carManager, colorManager, brandManager);
             
-            foreach (var users in userManager.GetAll().Data)
-            {
-               // Console.WriteLine(users.FirstName + " - " + users.LastName + " - " + users.Email + " - " + users.Password);
-            }
-            foreach (var car in carManager.GetAll().Data)
-            {
-               //Console.WriteLine(car.CarId + " - " + car.BrandId + " - " + car.ColorId + " - " + car.DailyPrice + " - " + car.ModelYear + " - " + car.Description);
-            }
+            //foreach (var users in userManager.GetAll().Data)
+            //{
+            //   // Console.WriteLine(users.FirstName + " - " + users.LastName + " - " + users.Email + " - " + users.Password);
+            //}
+            //foreach (var car in carManager.GetAll().Data)
+            //{
+            //   //Console.WriteLine(car.CarId + " - " + car.BrandId + " - " + car.ColorId + " - " + car.DailyPrice + " - " + car.ModelYear + " - " + car.Description);
+            //}
 
         }
 

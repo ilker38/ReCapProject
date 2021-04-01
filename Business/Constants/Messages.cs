@@ -15,16 +15,19 @@ namespace Business.Constants
       public static string CarListed = "Cars Successfully Listed";
       public static string CarUpdated = "Car Information Updated";
       public static string CarDeleted = "Car Deleted";
+      public static string CarNameAlreadyExists = "Car Name Already Exists Please Change Your Car Name and Try Again";
 
         public static string ColorAdded = "Color Added";
         public static string ColorNameInvalid = "Color Name Invalid !";
         public static string ColorDeleted = "Color Deleted";
         public static string ColorUpdated = "Color Information Updated";
+        public static string CarColorCountOfCategoryError = "You Already Reach Maximum Color Capacity";
 
         public static string BrandAdded = "Brand Added";
         public static string BrandNameInvalid = "Brand Name Invalid !";
         public static string BrandDeleted = "Brand Deleted";
         public static string BrandUpdated = "Brand Information Updated";
+        public static string CarBrandLimitExceded = "You Already Reach Maximum Brand Capacity You Can not Add New Brand Anymore";
 
         public static string UserAdded = "User Added";
         public static string UserDeleted = "User Deleted";
@@ -40,6 +43,6 @@ namespace Business.Constants
         public static string CarNotReturned = "Car Not Yet Returned,Operation Failed ! ";
 
 
-
+        public static string CarImageLimitExceeded = "You have reached the maximum picture for 1 vehicle";
     }
 }
