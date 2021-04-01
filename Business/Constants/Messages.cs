@@ -44,5 +44,14 @@ namespace Business.Constants
 
 
         public static string CarImageLimitExceeded = "You have reached the maximum picture for 1 vehicle";
+
+
+        public static string AuthorizationDenied = "Authorization Denied !";
+        public static string UserRegistered = "";
+        public static string UserNotFound = "";
+        public static string PasswordError = "";
+        public static string SuccessfulLogin = "";
+        public static string UserAlreadyExists = "";
+        public static string AccessTokenCreated = "";
     }
 }

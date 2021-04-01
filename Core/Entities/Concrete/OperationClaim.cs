@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Core.Entities;
 using Core.Entities.Abstract;
 
-
-namespace Entities.Concrete
+namespace Core.Entities.Concrete
 {
-    public class Color : IEntity
+    public class OperationClaim : IEntity
     {
-        public int ColorId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }
