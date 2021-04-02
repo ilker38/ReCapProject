@@ -12,6 +12,9 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
+using Core.Aspects.Autofac.Performance;
 
 namespace Business.Concrete
 {
@@ -27,23 +30,24 @@ namespace Business.Concrete
             _colorService=colorService;
             _brandService=brandService;
         }
-
+        [CacheAspect]
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(),Messages.CarListed);
         }
-
+        [CacheAspect]
         public IDataResult<List<Car>> GettAllByColorId(int id)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
         }
-
+        [CacheAspect]
         public IDataResult<List<Car>> GettAllByBrandId(int id)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id));
         }
-        [SecuredOperation("product.add,admin")]
+        [SecuredOperation("admin")]
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
         {
             IResult result = BusinessRules.Run(CheckIfColorCountOfCategoryCorrect(car.ColorId), CheckIfCarNameExists(car.CarName), CheckIfBrandCategoryLimitExceded());
@@ -51,12 +55,13 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarAdded);
         }
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Update(Car car)
         {
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
         }
-
+        [SecuredOperation("admin")]
         public IResult Delete(Car car)
         {
             _carDal.GetAll(c => c.BrandId == car.BrandId);
@@ -69,6 +74,18 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
         }
 
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Car car)
+        {
+            Add(car);
+            if (car.DailyPrice < 5000)
+            {
+                throw new Exception("");
+            }
+
+            Add(car);
+            return null;
+        }
 
 
         private IResult CheckIfColorCountOfCategoryCorrect(int colorId)

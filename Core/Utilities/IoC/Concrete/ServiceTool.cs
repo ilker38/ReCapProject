@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Core.Utilities.IoC
+namespace Core.Utilities.IoC.Concrete
 {
     public static class ServiceTool
     {
